@@ -1,5 +1,5 @@
-from telegram import Update, ReplyKeyboardMarkup, ReplyKeyboardRemove
-from telegram.ext import Updater, CallbackContext
+from telegram import Update, ReplyKeyboardMarkup
+from telegram.ext import CallbackContext
 from db import DB
 
 db = DB('db.json')
@@ -67,6 +67,3 @@ class Auth_bot:
         else:
             text = 'Shablonni hato kritgansiz yoki telegram ismingiz yo\'q⁉️'
             bot.sendMessage(chat_id, text)
-
-
-
