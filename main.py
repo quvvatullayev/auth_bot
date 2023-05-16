@@ -9,6 +9,7 @@ dispatcher = updater.dispatcher
 
 dispatcher.add_handler(CommandHandler('start', bot.start))
 dispatcher.add_handler(MessageHandler(Filters.text("ro'yxatdan o'tish"), bot.direction_user))
+dispatcher.add_handler(MessageHandler(Filters.text, bot.auth_user))
 
 
 updater.start_polling()

@@ -7,13 +7,13 @@ db = DB('db.json')
 class Auth_bot:
     def start(self, update: Update, context: CallbackContext) -> None:
         update.message.reply_text(
-            'Assalomu alaykum, Iltimos, ismingizni kiriting'
+            'Assalomu alaykum, Iltimos, ismingizni kiriting✋'
         )
         reply_markup = ReplyKeyboardMarkup(
             [["ro'yxatdan o'tish"]], resize_keyboard=True, one_time_keyboard=True
         )
         update.message.reply_text(
-            "Ro'yxatdan o'tish uchun quydagi buttoni bosing",
+            "Ro'yxatdan o'tish uchun quydagi buttoni bosing🔐",
             reply_markup=reply_markup
         )
     
@@ -22,11 +22,40 @@ class Auth_bot:
         if username:
             bot = context.bot
             chat_id = update.message.chat_id
-            text = "Quydagi namuna asosida malumotni\nto'ldiring va botga yuboring\n\n"
+            text = "Quydagi namuna asosida malumotni\nto'ldiring va botga yuboring📝\n\n"
             text += "ism:___\nfamiliya:___\nsharif:___\ntelefon:___\nyo'nalish:___\ngmail:___\n"
             bot.send_message(chat_id=chat_id, text=text)
 
         else:
             update.message.reply_text(
-                'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering'
+                'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering❕'
             )
+
+    def auth_user(self, update: Update, context: CallbackContext):
+        text = update.message.text
+        bot = context.bot
+        chat_id = update.message.chat_id
+        if "ism:" in text and "familiya:" in text and "sharif:" in text and "telefon:" in text and "yo'nalish:" in text and "gmail:" in text:
+            text = update.message.text.split('\n')
+            telegram_username = update.message.from_user.username
+            name = text[0].split(":")[1]
+            surname = text[1].split(":")[1]
+            fathername = text[2].split(":")[1]
+            phone = text[3].split(":")[1]
+            direction = text[4].split(":")[1]
+            gmail = text[5].split(":")[1]
+            
+            db.add_user(chat_id, name, surname, fathername, phone, telegram_username, direction,gmail)
+            if db.get_user(chat_id):
+                text = 'Tabriklayman siz movfaqyatli ro\'yxatdan o\'tdingiz✅'
+                bot.sendMessage(chat_id, text)
+            else:
+                text = "Ro'yxatdan o'tishda xatolik yuz berdi qayta urinign❌⁉️"
+                bot.sendMessage(chat_id, text)
+
+        else:
+            text = 'Shablonni hato kritgansiz yoki telegram ismingiz yo\'q⁉️'
+            bot.sendMessage(chat_id, text)
+
+
+
