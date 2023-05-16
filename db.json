@@ -1,0 +1,24 @@
+{
+    "users": {
+        "1": {
+            "chat_id": 1,
+            "name": "Sardor",
+            "surname": "Saidov",
+            "fathername": "Saidovich",
+            "phone": "+998 99 999 99 99",
+            "telegram": "@sardor",
+            "direction": "Python",
+            "gmail": "quvvatullaye@gmail.com"
+        },
+        "64654": {
+            "chat_id": "64654",
+            "name": "Sardor",
+            "surname": "Saidov",
+            "fathername": "Saidovich",
+            "phone": "+998 99 999 99 99",
+            "telegram": "@sardor",
+            "direction": "Python",
+            "gmail": "quvvatullaye@gmail.com"
+        }
+    }
+}

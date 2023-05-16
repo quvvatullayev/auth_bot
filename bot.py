@@ -9,4 +9,10 @@ class Auth_bot:
         update.message.reply_text(
             'Assalomu alaykum, Iltimos, ismingizni kiriting'
         )
-        return 'name'
+        reply_markup = ReplyKeyboardMarkup(
+            [["ro'yxatdan o'tish"]], resize_keyboard=True, one_time_keyboard=True
+        )
+        update.message.reply_text(
+            'Assalomu alaykum, Iltimos, ismingizni kiriting',
+            reply_markup=reply_markup
+        )
