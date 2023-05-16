@@ -44,13 +44,24 @@ class Auth_bot:
             phone = text[3].split(":")[1]
             direction = text[4].split(":")[1]
             gmail = text[5].split(":")[1]
-            
-            db.add_user(chat_id, name, surname, fathername, phone, telegram_username, direction,gmail)
-            if db.get_user(chat_id):
-                text = 'Tabriklayman siz movfaqyatli ro\'yxatdan o\'tdingiz✅'
-                bot.sendMessage(chat_id, text)
+
+            if name and surname and fathername and phone and direction and gmail and telegram_username:
+                respons = db.add_user(chat_id, name, surname, fathername, phone, telegram_username, direction,gmail)
+
+                if respons == "NO 401":
+                    text = "Siz oldinham ro'yxatdan o'tgansiz‼️"
+                    bot.sendMessage(chat_id, text)
+
+                elif db.get_user(chat_id) and respons == "OK 200":
+                    text = 'Tabriklayman siz movfaqyatli ro\'yxatdan o\'tdingiz✅'
+                    bot.sendMessage(chat_id, text)
+
+                else:
+                    text = "Ro'yxatdan o'tishda xatolik yuz berdi qayta urinign❌⁉️"
+                    bot.sendMessage(chat_id, text)
+       
             else:
-                text = "Ro'yxatdan o'tishda xatolik yuz berdi qayta urinign❌⁉️"
+                text = 'Shablonni hato kritgansiz yoki telegram ismingiz yo\'q⁉️'
                 bot.sendMessage(chat_id, text)
 
         else:
