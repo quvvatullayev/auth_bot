@@ -1,4 +1,4 @@
-from telegram import Update, ReplyKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
 from db import DB
 
@@ -83,25 +83,23 @@ class Auth_bot:
                 area = self.user_data.get("area")
                 school = self.user_data.get("school")
                 class_ = self.user_data.get("class")
+                inline_keyboard = [
+                    [
+                        InlineKeyboardButton(
+                            text="Yes", callback_data="yes"
+                        ),
+                        InlineKeyboardButton(
+                            text="No", callback_data="no"
+                        )
+                    ]
+                ]
+
+                reply_markup = InlineKeyboardMarkup(inline_keyboard)
+
+
                 update.message.reply_text(
                     f'Ma\'lumotlaringizni tekshirib yuboring✋\n\nIsm: {name}\nFamiliya: {surname}\nTelefon raqam: {phone}\nYashash manzil: {area}\nMaktab: {school}\nSinf: {class_}\n\nAgar ma\'lumotlar to\'g\'ri bo\'lsa yes, to\'g\'ri emas bo\'lsa no ni bosing👇',
-                )
-            
-            elif text == 'yes' and (self.user_data.get("name") and self.user_data.get("surname") and self.user_data.get("phone") and self.user_data.get("area") and self.user_data.get("school") and self.user_data.get("class")):
-                name = self.user_data.get("name")
-                surname = self.user_data.get("surname")
-                phone = self.user_data.get("phone")
-                area = self.user_data.get("area")
-                school = self.user_data.get("school")
-                class_ = self.user_data.get("class")
-                db.add_user(chat_id, name, surname, phone, telegram, area, school, class_)
-                update.message.reply_text(
-                    'Sizning ma\'lumotlaringiz bazaga saqlandi✅'
-                )
-            elif text == 'no':
-                self.user_data = {}
-                update.message.reply_text(
-                    'Iltimos, ro\'yxatdan o\'tish uchun\n pasdagi tugmani bosing🔐'
+                    reply_markup=reply_markup
                 )
         else:
             update.message.reply_text(
@@ -109,3 +107,37 @@ class Auth_bot:
             )
 
         print(self.user_data)
+
+    def yes(self, update: Update, context: CallbackContext):
+        query = update.callback_query
+        bot = context.bot
+        chat_id = query.message.chat_id
+        telegram = query.message.from_user.username
+        name = self.user_data.get("name")
+        surname = self.user_data.get("surname")
+        phone = self.user_data.get("phone")
+        area = self.user_data.get("area")
+        school = self.user_data.get("school")
+        class_ = self.user_data.get("class")
+        query.message.edit_text(
+            f'Ma\'lumotlaringiz bazaga saqlanmoqda⏳',
+            reply_markup=None
+        )
+        db.add_user(chat_id, name, surname, phone, telegram, area, school, class_)
+        query.message.reply_text(
+            'Sizning ma\'lumotlaringiz bazaga saqlandi✅'
+        )
+
+    def no(self, update: Update, context: CallbackContext):
+        query = update.callback_query
+        bot = context.bot
+        chat_id = query.message.chat_id
+        telegram = query.message.from_user.username
+        query.message.edit_text(
+            'Ma\'lumotlaringizni qayta to\'ldiring✋',
+            reply_markup=None
+        )
+        self.user_data = {}
+        query.message.reply_text(
+            'Iltimos, ro\'yxatdan o\'tish uchun\n pasdagi tugmani bosing🔐'
+        )

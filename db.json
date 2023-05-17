@@ -1,0 +1,24 @@
+{
+    "users": {
+        "1046157991": {
+            "chat_id": 1046157991,
+            "name": "Javosdf",
+            "surname": "sdf",
+            "phone": "345345",
+            "telegram": "JalilovJavohir",
+            "area": "samarqand",
+            "school": "3-sdf",
+            "class": "2-sdf"
+        },
+        "6770384393": {
+            "chat_id": 677038439,
+            "name": "lsjdf",
+            "surname": "lkjsfad",
+            "phone": "laskfj",
+            "username": "cril7lotin_bot",
+            "area": "lsjf",
+            "school": "asfkj",
+            "class": "sal;kfdj"
+        }
+    }
+}
