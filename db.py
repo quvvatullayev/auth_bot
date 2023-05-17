@@ -8,13 +8,13 @@ class DB:
 
     def add_user(self, chat_id, name, surname, phone, telegram, area, school, class_):
         if not self.users.get(doc_id=int(chat_id)):
-            
+
             self.users.insert(Document({
                 "chat_id": chat_id,
                 "name": name,
                 "surname": surname,
                 "phone": phone,
-                "telegram": telegram,
+                "username": telegram,
                 "area": area,
                 "school": school,
                 "class": class_
@@ -26,3 +26,10 @@ class DB:
     def get_user(self, chat_id):
         chat_id = int(chat_id)
         return self.users.get(doc_id=chat_id)
+    
+    def chack_user(self, chat_id):
+        chat_id = int(chat_id)
+        if self.users.get(doc_id=chat_id):
+            return "200"
+        else:
+            return "401"
