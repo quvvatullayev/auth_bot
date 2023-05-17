@@ -41,9 +41,14 @@ class Auth_bot:
         chat_id = update.message.chat_id
         if telegram:
             if text == "ro'yxatdan o'tish":
-                update.message.reply_text(
-                    'Iltimos, ismingizni kiriting✋\n\nNamuna: Muhammad'
-                )
+                if db.chack_user(chat_id) == "200":
+                    update.message.reply_text(
+                        'Siz ro\'yxatdan o\'tgansiz❕'
+                    )
+                elif db.chack_user(chat_id) == "401":
+                    update.message.reply_text(
+                        'Iltimos, ismingizni kiriting✋\n\nNamuna: Muhammad'
+                    )
             
             elif self.user_data.get("name") == None:
                 self.user_data["name"] = text
