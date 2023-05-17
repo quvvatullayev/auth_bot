@@ -5,6 +5,9 @@ from db import DB
 db = DB('db.json')
 
 class Auth_bot:
+    def __init__(self) -> None:
+        self.user_data = {}
+
     def start(self, update: Update, context: CallbackContext) -> None:
         update.message.reply_text(
             'Assalomu alaykum, Iltimos, ismingizni kiriting✋'
@@ -23,7 +26,7 @@ class Auth_bot:
             bot = context.bot
             chat_id = update.message.chat_id
             text = "Quydagi namuna asosida malumotni\nto'ldiring va botga yuboring📝\n\n"
-            text += "ism:___\nfamiliya:___\nsharif:___\ntelefon:___\nyo'nalish:___\ngmail:___\n"
+            text += "ism:Muhammad\n"
             bot.send_message(chat_id=chat_id, text=text)
 
         else:
@@ -34,36 +37,70 @@ class Auth_bot:
     def auth_user(self, update: Update, context: CallbackContext):
         text = update.message.text
         bot = context.bot
+        telegram = update.message.from_user.username
         chat_id = update.message.chat_id
-        if "ism:" in text and "familiya:" in text and "sharif:" in text and "telefon:" in text and "yo'nalish:" in text and "gmail:" in text:
-            text = update.message.text.split('\n')
-            telegram_username = update.message.from_user.username
-            name = text[0].split(":")[1]
-            surname = text[1].split(":")[1]
-            fathername = text[2].split(":")[1]
-            phone = text[3].split(":")[1]
-            direction = text[4].split(":")[1]
-            gmail = text[5].split(":")[1]
-
-            if name and surname and fathername and phone and direction and gmail and telegram_username:
-                respons = db.add_user(chat_id, name, surname, fathername, phone, telegram_username, direction,gmail)
-
-                if respons == "NO 401":
-                    text = "Siz oldinham ro'yxatdan o'tgansiz‼️"
-                    bot.sendMessage(chat_id, text)
-
-                elif db.get_user(chat_id) and respons == "OK 200":
-                    text = 'Tabriklayman siz movfaqyatli ro\'yxatdan o\'tdingiz✅'
-                    bot.sendMessage(chat_id, text)
-
-                else:
-                    text = "Ro'yxatdan o'tishda xatolik yuz berdi qayta urinign❌⁉️"
-                    bot.sendMessage(chat_id, text)
-       
-            else:
-                text = 'Shablonni hato kritgansiz yoki telegram ismingiz yo\'q⁉️'
-                bot.sendMessage(chat_id, text)
-
+        if telegram:
+            if text == "ro'yxatdan o'tish":
+                update.message.reply_text(
+                    'Iltimos, ismingizni kiriting✋\n\nNamuna: Muhammad'
+                )
+            
+            elif self.user_data.get("name") == None:
+                self.user_data["name"] = text
+                update.message.reply_text(
+                    'Familiyangizni kiriting✋\n\nNamuna: Abdullayev'
+                )
+            elif self.user_data.get("surname") == None:
+                self.user_data["surname"] = text
+                update.message.reply_text(
+                    'Telefon raqamingizni kiriting✋\n\nNamuna: +998901234567'
+                )
+            elif self.user_data.get("phone") == None:
+                self.user_data["phone"] = text
+                update.message.reply_text(
+                    'Yashash manzilingizni kiriting(shahar yoki tuman)✋\n\nNamuna: Toshkent shahar'
+                )
+            elif self.user_data.get("area") == None:
+                self.user_data["area"] = text
+                update.message.reply_text(
+                    'Maktabingizni kiriting✋\n\nNamuna: 1-maktab'
+                )
+            elif self.user_data.get("school") == None:
+                self.user_data["school"] = text
+                update.message.reply_text(
+                    'Sinfingizni kiriting✋\n\nNamuna: 9-sinf'
+                )
+            elif self.user_data.get("class") == None:
+                self.user_data["class"] = text
+                name = self.user_data.get("name")
+                surname = self.user_data.get("surname")
+                phone = self.user_data.get("phone")
+                area = self.user_data.get("area")
+                school = self.user_data.get("school")
+                class_ = self.user_data.get("class")
+                update.message.reply_text(
+                    f'Ma\'lumotlaringizni tekshirib yuboring✋\n\nIsm: {name}\nFamiliya: {surname}\nTelefon raqam: {phone}\nYashash manzil: {area}\nMaktab: {school}\nSinf: {class_}\n\nAgar ma\'lumotlar to\'g\'ri bo\'lsa yes, to\'g\'ri emas bo\'lsa no ni bosing👇',
+                )
+            
+            elif text == 'yes' and (self.user_data.get("name") and self.user_data.get("surname") and self.user_data.get("phone") and self.user_data.get("area") and self.user_data.get("school") and self.user_data.get("class")):
+                name = self.user_data.get("name")
+                surname = self.user_data.get("surname")
+                phone = self.user_data.get("phone")
+                area = self.user_data.get("area")
+                school = self.user_data.get("school")
+                class_ = self.user_data.get("class")
+                db.add_user(chat_id, name, surname, phone, telegram, area, school, class_)
+                update.message.reply_text(
+                    'Sizning ma\'lumotlaringiz bazaga saqlandi✅'
+                )
+            elif text == 'no':
+                self.user_data = {}
+                update.message.reply_text(
+                    'Iltimos, ro\'yxatdan o\'tish uchun\n pasdagi tugmani bosing🔐'
+                )
         else:
-            text = 'Shablonni hato kritgansiz yoki telegram ismingiz yo\'q⁉️'
-            bot.sendMessage(chat_id, text)
+            update.message.reply_text(
+                'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering❕'
+            )
+
+        print(self.user_data)
