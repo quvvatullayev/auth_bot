@@ -10,13 +10,13 @@ class Auth_bot:
 
     def start(self, update: Update, context: CallbackContext) -> None:
         update.message.reply_text(
-            'Assalomu alaykum, Iltimos, ismingizni kiriting✋'
+            'Assalomu alaykum, bizning botimizga hush kelibsiz✋'
         )
         reply_markup = ReplyKeyboardMarkup(
             [["ro'yxatdan o'tish"]], resize_keyboard=True, one_time_keyboard=True
         )
         update.message.reply_text(
-            "Ro'yxatdan o'tish uchun quydagi buttoni bosing🔐",
+            "Ro'yxatdan o'tish uchun quydagi buttoni bosing👇",
             reply_markup=reply_markup
         )
     
@@ -31,7 +31,7 @@ class Auth_bot:
 
         else:
             update.message.reply_text(
-                'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering❕'
+                'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering ‼️'
             )
 
     def auth_user(self, update: Update, context: CallbackContext):
@@ -45,43 +45,43 @@ class Auth_bot:
                 if text == "ro'yxatdan o'tish":
                     if db.chack_user(chat_id) == "200":
                         update.message.reply_text(
-                            'Siz ro\'yxatdan o\'tgansiz❕'
+                            'Siz ro\'yxatdan o\'tgansiz ‼️'
                         )
                     elif db.chack_user(chat_id) == "401":
                         db.user_append(chat_id)
                         update.message.reply_text(
-                            'Iltimos, ismingizni kiriting✋\n\nNamuna: Muhammad'
+                            'Iltimos, ismingizni 📝\n\nNamuna: Muhammad'
                         )
             
                 elif get_append.get("name") == None:
                     # self.user_data["name"] = text
                     db.user_append(chat_id, name=text, telegram=telegram)
                     update.message.reply_text(
-                        'Familiyangizni kiriting✋\n\nNamuna: Abdullayev'
+                        'Familiyangizni kiriting📝\n\nNamuna: Abdullayev'
                     )
                 elif get_append.get("surname") == None:
                     # self.user_data["surname"] = text
                     db.user_append(chat_id, surname=text)
                     update.message.reply_text(
-                        'Telefon raqamingizni kiriting✋\n\nNamuna: +998901234567'
+                        'Telefon raqamingizni kiriting📲\n\nNamuna: +998 99 999 99 99'
                     )
                 elif get_append.get("phone") == None:
                     # self.user_data["phone"] = text
                     db.user_append(chat_id, phone=text)
                     update.message.reply_text(
-                        'Yashash manzilingizni kiriting(shahar yoki tuman)✋\n\nNamuna: Toshkent shahar'
+                        'Yashash manzilingizni kiriting(shahar yoki tuman)📍\n\nNamuna: Toshkent shahar'
                     )
                 elif get_append.get("area") == None:
                     # self.user_data["area"] = text
                     db.user_append(chat_id, area=text)
                     update.message.reply_text(
-                        'Maktabingizni kiriting✋\n\nNamuna: 1-maktab'
+                        'Maktabingizni kiriting🏫\n\nNamuna: 1-maktab'
                     )
                 elif get_append.get("school") == None:
                     # self.user_data["school"] = text
                     db.user_append(chat_id, school=text)
                     update.message.reply_text(
-                        'Sinfingizni kiriting✋\n\nNamuna: 9-sinf'
+                        'Sinfingizni kiriting🏛\n\nNamuna: 9-sinf'
                     )
                 elif get_append.get("class") == None:
                     # self.user_data["class"] = text
@@ -110,12 +110,12 @@ class Auth_bot:
 
 
                     update.message.reply_text(
-                        f'Ma\'lumotlaringizni tekshirib yuboring✋\n\nIsm: {name}\nFamiliya: {surname}\nTelefon raqam: {phone}\nYashash manzil: {area}\nMaktab: {school}\nSinf: {class_}\n\nAgar ma\'lumotlar to\'g\'ri bo\'lsa yes, to\'g\'ri emas bo\'lsa no ni bosing👇',
+                        f'Ma\'lumotlaringizni tekshirib yuboring✅\n\nIsm: {name}\nFamiliya: {surname}\nTelefon raqam: {phone}\nYashash manzil: {area}\nMaktab: {school}\nSinf: {class_}\n\nAgar ma\'lumotlar to\'g\'ri bo\'lsa yes, to\'g\'ri emas bo\'lsa no ni bosing👇',
                         reply_markup=reply_markup
                     )
             else:
                 update.message.reply_text(
-                    'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering❕'
+                    'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering ‼️'
                 )
 
             print(get_append)
@@ -150,10 +150,10 @@ class Auth_bot:
         chat_id = query.message.chat_id
         telegram = query.message.from_user.username
         query.message.edit_text(
-            'Ma\'lumotlaringizni qayta to\'ldiring✋',
+            'Ma\'lumotlaringizni qayta to\'ldiring📝',
             reply_markup=None
         )
         db.delete_user_append(chat_id)
         query.message.reply_text(
-            'Iltimos, ro\'yxatdan o\'tish uchun\n pasdagi tugmani bosing🔐'
+            'Iltimos, ro\'yxatdan o\'tish uchun\n pasdagi tugmani bosing👇'
         )
