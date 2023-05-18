@@ -1,5 +1,6 @@
 from tinydb import TinyDB
 from tinydb.table import Document
+import csv
 
 class DB:
     def __init__(self, path) -> None:
@@ -20,6 +21,14 @@ class DB:
                 "school": school,
                 "class": class_
                 }, doc_id=chat_id))
+            
+            # table_header = ['chat_id', 'name', 'surname', 'phone', 'username', 'area', 'school', 'class']
+            with open('users.csv', 'a', newline='') as file:
+                writer = csv.writer(file, delimiter=',')
+                writer.writerow([chat_id, name, surname, phone, telegram, area, school, class_])
+
+
+
             return 'OK 200'
         else:
             return "NO 401"

@@ -36,7 +36,6 @@ class Auth_bot:
 
     def auth_user(self, update: Update, context: CallbackContext):
         text = update.message.text
-        bot = context.bot
         telegram = update.message.from_user.username
         chat_id = update.message.chat_id
         try:
@@ -54,37 +53,31 @@ class Auth_bot:
                         )
             
                 elif get_append.get("name") == None:
-                    # self.user_data["name"] = text
                     db.user_append(chat_id, name=text, telegram=telegram)
                     update.message.reply_text(
                         'Familiyangizni kiriting📝\n\nNamuna: Abdullayev'
                     )
                 elif get_append.get("surname") == None:
-                    # self.user_data["surname"] = text
                     db.user_append(chat_id, surname=text)
                     update.message.reply_text(
                         'Telefon raqamingizni kiriting📲\n\nNamuna: +998 99 999 99 99'
                     )
                 elif get_append.get("phone") == None:
-                    # self.user_data["phone"] = text
                     db.user_append(chat_id, phone=text)
                     update.message.reply_text(
                         'Yashash manzilingizni kiriting(shahar yoki tuman)📍\n\nNamuna: Toshkent shahar'
                     )
                 elif get_append.get("area") == None:
-                    # self.user_data["area"] = text
                     db.user_append(chat_id, area=text)
                     update.message.reply_text(
                         'Maktabingizni kiriting🏫\n\nNamuna: 1-maktab'
                     )
                 elif get_append.get("school") == None:
-                    # self.user_data["school"] = text
                     db.user_append(chat_id, school=text)
                     update.message.reply_text(
                         'Sinfingizni kiriting🏛\n\nNamuna: 9-sinf'
                     )
                 elif get_append.get("class") == None:
-                    # self.user_data["class"] = text
                     db.user_append(chat_id, class_=text)
 
                     get_append_user = db.get_user_append(chat_id)
@@ -98,7 +91,7 @@ class Auth_bot:
                     inline_keyboard = [
                         [
                             InlineKeyboardButton(
-                                text="Yes", callback_data="yes"
+                                text="Yes", callback_data=f"yes_{telegram}"
                             ),
                             InlineKeyboardButton(
                                 text="No", callback_data="no"
@@ -117,16 +110,15 @@ class Auth_bot:
                 update.message.reply_text(
                     'Iltimos, telegramdagi ismingizni\n shaxsiy kabinetga kiriting va /start \nbuyrug\'ini qayta bering ‼️'
                 )
-
-            print(get_append)
         except:
             pass
 
     def yes(self, update: Update, context: CallbackContext):
         query = update.callback_query
-        bot = context.bot
         chat_id = query.message.chat_id
-        telegram = query.message.from_user.username
+        data = query.data
+        telegram = data.split('_')[-1]
+        
         get_user_append = db.get_user_append(chat_id)
         name = get_user_append.get("name")
         surname = get_user_append.get("surname")
@@ -146,9 +138,7 @@ class Auth_bot:
 
     def no(self, update: Update, context: CallbackContext):
         query = update.callback_query
-        bot = context.bot
         chat_id = query.message.chat_id
-        telegram = query.message.from_user.username
         query.message.edit_text(
             'Ma\'lumotlaringizni qayta to\'ldiring📝',
             reply_markup=None
