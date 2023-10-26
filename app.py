@@ -20,11 +20,11 @@ def index():
     data = request.get_json(force=True)
     update = Update.de_json(data, bot)
 
-    dispatcher.add_handler(CommandHandler('start', bot.start))
-    dispatcher.add_handler(MessageHandler(Filters.text('kontakt'), bot.get_contact))
-    dispatcher.add_handler(MessageHandler(Filters.text, bot.auth_user))
-    dispatcher.add_handler(CallbackQueryHandler(bot.yes, pattern='yes'))
-    dispatcher.add_handler(CallbackQueryHandler(bot.no, pattern='no'))
+    dispatcher.add_handler(CommandHandler('start', auth_bot.start))
+    dispatcher.add_handler(MessageHandler(Filters.text('kontakt'), auth_bot.get_contact))
+    dispatcher.add_handler(MessageHandler(Filters.text, auth_bot.auth_user))
+    dispatcher.add_handler(CallbackQueryHandler(auth_bot.yes, pattern='yes'))
+    dispatcher.add_handler(CallbackQueryHandler(auth_bot.no, pattern='no'))
 
 
     dispatcher.process_update(update)
