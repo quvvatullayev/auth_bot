@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackQueryHandler
 from bot import Auth_bot
 
-TOKEN = '5505244566:AAFRwoxaYH-ahK27OKN0_6MPKStev9LJ1R4'
+TOKEN = '6750740936:AAHiPpAnBfWYYZZTyy9SGZLVAXybSxYmVKM'
 
 app = Flask(__name__)
 

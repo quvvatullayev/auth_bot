@@ -2,7 +2,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, Callb
 from bot import Auth_bot
 
 bot = Auth_bot()
-TOKEN = '5505244566:AAFRwoxaYH-ahK27OKN0_6MPKStev9LJ1R4'
+TOKEN = '6750740936:AAHiPpAnBfWYYZZTyy9SGZLVAXybSxYmVKM'
 
 updater = Updater(TOKEN, use_context=True)
 dispatcher = updater.dispatcher
