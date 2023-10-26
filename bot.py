@@ -1,6 +1,7 @@
 from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import CallbackContext
 from db import DB
+import re
 
 db = DB('db.json')
 
@@ -63,22 +64,19 @@ class Auth_bot:
                         'Telefon raqamingizni kiriting📲\n\nNamuna: +998 99 999 99 99'
                     )
                 elif get_append.get("phone") == None:
-                    db.user_append(chat_id, phone=text)
-                    update.message.reply_text(
-                        'Yashash manzilingizni kiriting(shahar yoki tuman)📍\n\nNamuna: Toshkent shahar'
-                    )
+                        pattern = r'\+998\s?\d{2}\s?\d{3}\s?\d{2}\s?\d{2}'
+                        telefonlar = re.findall(pattern, text)
+                        if telefonlar:
+                            db.user_append(chat_id, phone=text)
+                            update.message.reply_text(
+                                'Yashash manzilingizni kiriting(shahar yoki tuman)📍\n\nNamuna: Toshkent shahar'
+                            )
+                        else:
+                            update.message.reply_text(
+                                'Telefon raqamingizni noto\'g\'ri kiritdingiz❌\n\nNamuna: +998 99 999 99 99'
+                            )
                 elif get_append.get("area") == None:
                     db.user_append(chat_id, area=text)
-                    update.message.reply_text(
-                        'Maktabingizni kiriting🏫\n\nNamuna: 1-maktab'
-                    )
-                elif get_append.get("school") == None:
-                    db.user_append(chat_id, school=text)
-                    update.message.reply_text(
-                        'Sinfingizni kiriting🏛\n\nNamuna: 9-sinf'
-                    )
-                elif get_append.get("class") == None:
-                    db.user_append(chat_id, class_=text)
 
                     get_append_user = db.get_user_append(chat_id)
 
@@ -86,8 +84,6 @@ class Auth_bot:
                     surname = get_append_user.get("surname")
                     phone = get_append_user.get("phone")
                     area = get_append_user.get("area")
-                    school = get_append_user.get("school")
-                    class_ = get_append_user.get("class")
                     inline_keyboard = [
                         [
                             InlineKeyboardButton(
@@ -103,7 +99,7 @@ class Auth_bot:
 
 
                     update.message.reply_text(
-                        f'Ma\'lumotlaringizni tekshirib yuboring✅\n\nIsm: {name}\nFamiliya: {surname}\nTelefon raqam: {phone}\nYashash manzil: {area}\nMaktab: {school}\nSinf: {class_}\n\nAgar ma\'lumotlar to\'g\'ri bo\'lsa yes, to\'g\'ri emas bo\'lsa no ni bosing👇',
+                        f'Ma\'lumotlaringizni tekshirib yuboring✅\n\nIsm: {name}\nFamiliya: {surname}\nTelefon raqam: {phone}\nYashash manzil: {area}\n\nAgar ma\'lumotlar to\'g\'ri bo\'lsa yes, to\'g\'ri emas bo\'lsa no ni bosing👇',
                         reply_markup=reply_markup
                     )
             else:
@@ -124,13 +120,11 @@ class Auth_bot:
         surname = get_user_append.get("surname")
         phone = get_user_append.get("phone")
         area = get_user_append.get("area")
-        school = get_user_append.get("school")
-        class_ = get_user_append.get("class")
         query.message.edit_text(
             f'Ma\'lumotlaringiz bazaga saqlanmoqda⏳',
             reply_markup=None
         )
-        db.add_user(chat_id, name, surname, phone, telegram, area, school, class_)
+        db.add_user(chat_id, name, surname, phone, telegram, area)
         query.message.reply_text(
             'Sizning ma\'lumotlaringiz bazaga saqlandi✅'
         )

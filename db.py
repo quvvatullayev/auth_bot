@@ -8,7 +8,7 @@ class DB:
         self.users = self.db.table('users')
         self.data_append = self.db.table('user_data')
 
-    def add_user(self, chat_id, name, surname, phone, telegram, area, school, class_):
+    def add_user(self, chat_id, name, surname, phone, telegram, area):
         if not self.users.get(doc_id=int(chat_id)):
 
             self.users.insert(Document({
@@ -18,14 +18,12 @@ class DB:
                 "phone": phone,
                 "username": telegram,
                 "area": area,
-                "school": school,
-                "class": class_
                 }, doc_id=chat_id))
             
             # table_header = ['chat_id', 'name', 'surname', 'phone', 'username', 'area', 'school', 'class']
             with open('users.csv', 'a', newline='') as file:
                 writer = csv.writer(file, delimiter=',')
-                writer.writerow([chat_id, name, surname, phone, telegram, area, school, class_])
+                writer.writerow([chat_id, name, surname, phone, telegram, area])
 
 
 
@@ -44,7 +42,7 @@ class DB:
         else:
             return "401"
         
-    def user_append(self, chat_id, name=None, surname=None, phone=None, telegram=None, area=None, school=None, class_=None):
+    def user_append(self, chat_id, name=None, surname=None, phone=None, telegram=None, area=None):
         chat_id = int(chat_id)
         if not self.data_append.get(doc_id=chat_id):
             self.data_append.insert(Document({
@@ -54,8 +52,6 @@ class DB:
                 "phone": None,
                 "username": None,
                 "area": None,
-                "school": None,
-                "class": None
                 }, doc_id=chat_id))
         else:
             if name:
@@ -68,10 +64,6 @@ class DB:
                 self.data_append.update({"username": telegram}, doc_ids=[chat_id])
             if area:
                 self.data_append.update({"area": area}, doc_ids=[chat_id])
-            if school:
-                self.data_append.update({"school": school}, doc_ids=[chat_id])
-            if class_:
-                self.data_append.update({"class": class_}, doc_ids=[chat_id])
             return self.data_append.get(doc_id=chat_id)
     
     def get_user_append(self, chat_id):
