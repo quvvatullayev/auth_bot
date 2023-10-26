@@ -14,13 +14,29 @@ class Auth_bot:
             'Assalomu alaykum, bizning botimizga hush kelibsiz✋'
         )
         reply_markup = ReplyKeyboardMarkup(
-            [["ro'yxatdan o'tish"]], resize_keyboard=True, one_time_keyboard=True
+            [['kontakt'],["ro'yxatdan o'tish"]], resize_keyboard=True, one_time_keyboard=True
         )
         update.message.reply_text(
-            "Ro'yxatdan o'tish uchun quydagi buttoni bosing👇",
+            "Biz siz bilan bog'lanishga doimo tayyormiz ❕",
             reply_markup=reply_markup
         )
-    
+
+    def get_contact(self, update: Update, context: CallbackContext):
+        chat_id = update.message.chat_id
+        bot = context.bot
+        con = db.get_contakt()
+        
+        name = con['name']
+        suername = con['surname']
+        phone1 = con['phone1']
+        phone2 = con['phone2']
+        tg = con['username']
+        instagram = con['instagram']
+
+        text = f"Admin ismi : {suername} {name}\n\nTel1 : {phone1} \n Tel2 : {phone2}\n\nTelegram : {tg}\n\nInstagram : {instagram}"
+
+        bot.sendMessage(text = text, chat_id = chat_id)
+        
     def direction_user(self, update: Update, context: CallbackContext):
         username = update.message.from_user.username
         if username:

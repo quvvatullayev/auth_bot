@@ -7,6 +7,7 @@ class DB:
         self.db = TinyDB(path, indent=4, separators=(',', ': '))
         self.users = self.db.table('users')
         self.data_append = self.db.table('user_data')
+        self.contakt = self.db.table('contakt')
 
     def add_user(self, chat_id, name, surname, phone, telegram, area):
         if not self.users.get(doc_id=int(chat_id)):
@@ -34,6 +35,9 @@ class DB:
     def get_user(self, chat_id):
         chat_id = int(chat_id)
         return self.users.get(doc_id=chat_id)
+    
+    def get_contakt(self):
+        return self.contakt.get(doc_id=1)
     
     def chack_user(self, chat_id):
         chat_id = int(chat_id)
@@ -73,4 +77,3 @@ class DB:
     def delete_user_append(self, chat_id):
         chat_id = int(chat_id)
         self.data_append.remove(doc_ids=[chat_id])
-        
