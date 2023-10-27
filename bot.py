@@ -32,6 +32,15 @@ class Auth_bot:
                 reply_markup=reply_markup
             )
 
+    def get_fil(self, update: Update, context: CallbackContext):
+        bot = context.bot
+        users_file = open("users.csv", "rb")
+        chat_id = update.message.chat_id
+        
+        bot.sendMessage(chat_id, text = 'Iltimos kuting ...')
+        
+        context.bot.send_document(chat_id, users_file)
+
     def get_contact(self, update: Update, context: CallbackContext):
         chat_id = update.message.chat_id
         bot = context.bot
