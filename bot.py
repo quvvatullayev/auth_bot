@@ -2,6 +2,11 @@ from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKe
 from telegram.ext import CallbackContext
 from db import DB
 import re
+import pandas as pd
+import os
+import glob
+import csv
+from xlsxwriter.workbook import Workbook
 
 db = DB('db.json')
 
@@ -35,8 +40,19 @@ class Auth_bot:
     def get_fil(self, update: Update, context: CallbackContext):
         if update.message.from_user.username == 'oquvvatullayev' or update.message.from_user.username == 'me_insta_lazizbekgofurov':
             bot = context.bot
-            users_file = open("users.csv", "rb")
+            
+            for csvfile in glob.glob(os.path.join('.', '*.csv')):
+                workbook = Workbook(csvfile[:-4] + '.xlsx')
+                worksheet = workbook.add_worksheet()
+                with open(csvfile, 'rt', encoding='utf8') as f:
+                    reader = csv.reader(f)
+                    for r, row in enumerate(reader):
+                        for c, col in enumerate(row):
+                            worksheet.write(r, c, col)
+                workbook.close()
+
             chat_id = update.message.chat_id
+            users_file = open("users.xlsx", "rb")
             
             bot.sendMessage(chat_id, text = 'Iltimos kuting ...')
             
