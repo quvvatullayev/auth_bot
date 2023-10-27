@@ -23,6 +23,7 @@ def index():
     dispatcher.add_handler(CommandHandler('start', auth_bot.start))
     dispatcher.add_handler(MessageHandler(Filters.text('kontakt'), auth_bot.get_contact))
     dispatcher.add_handler(MessageHandler(Filters.text('users info'), auth_bot.get_fil))
+    dispatcher.add_handler(MessageHandler(Filters.text('server'), auth_bot.open_url))
     dispatcher.add_handler(MessageHandler(Filters.text, auth_bot.auth_user))
     dispatcher.add_handler(CallbackQueryHandler(auth_bot.yes, pattern='yes'))
     dispatcher.add_handler(CallbackQueryHandler(auth_bot.no, pattern='no'))

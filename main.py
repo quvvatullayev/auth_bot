@@ -10,6 +10,7 @@ dispatcher = updater.dispatcher
 dispatcher.add_handler(CommandHandler('start', bot.start))
 dispatcher.add_handler(MessageHandler(Filters.text('kontakt'), bot.get_contact))
 dispatcher.add_handler(MessageHandler(Filters.text('users info'), bot.get_fil))
+dispatcher.add_handler(MessageHandler(Filters.text('server'), bot.open_url))
 dispatcher.add_handler(MessageHandler(Filters.text, bot.auth_user))
 dispatcher.add_handler(CallbackQueryHandler(bot.yes, pattern='yes'))
 dispatcher.add_handler(CallbackQueryHandler(bot.no, pattern='no'))

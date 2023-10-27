@@ -1,4 +1,4 @@
-from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Update, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup,KeyboardButton
 from telegram.ext import CallbackContext
 from db import DB
 import re
@@ -21,7 +21,7 @@ class Auth_bot:
             'Assalomu alaykum✋'
            )
             reply_markup = ReplyKeyboardMarkup(
-            [['users info']], resize_keyboard=True, one_time_keyboard=True
+            [['users info', 'server']], resize_keyboard=True, one_time_keyboard=True
              )
             update.message.reply_text(
             "Assalomu alaykum, bizning botimizga hush kelibsiz\n\nBiz siz bilan bog'lanishga doimo tayyormiz ❕",
@@ -36,6 +36,12 @@ class Auth_bot:
                 "Biz siz bilan bog'lanishga doimo tayyormiz ❕",
                 reply_markup=reply_markup
             )
+
+    def open_url(self, update: Update, context: CallbackContext):
+        bot = context.bot
+        reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(text='open site', url='https://www.pythonanywhere.com/user/authbot/webapps/#tab_id_authbot_pythonanywhere_com')]])
+        update.message.reply_text('admin sayti', reply_markup=reply_markup)
+        
 
     def get_fil(self, update: Update, context: CallbackContext):
         if update.message.from_user.username == 'oquvvatullayev' or update.message.from_user.username == 'me_insta_lazizbekgofurov':
