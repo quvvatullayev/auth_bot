@@ -10,16 +10,27 @@ class Auth_bot:
         pass
 
     def start(self, update: Update, context: CallbackContext) -> None:
-        update.message.reply_text(
-            'Assalomu alaykum, bizning botimizga hush kelibsiz✋'
-        )
-        reply_markup = ReplyKeyboardMarkup(
-            [['kontakt'],["ro'yxatdan o'tish"]], resize_keyboard=True, one_time_keyboard=True
-        )
-        update.message.reply_text(
-            "Biz siz bilan bog'lanishga doimo tayyormiz ❕",
+        bot = context.bot
+        if update.message.from_user.username == 'oquvvatullayev':
+            update.message.reply_text(
+            'Assalomu alaykum✋'
+           )
+            reply_markup = ReplyKeyboardMarkup(
+            [['users info']], resize_keyboard=True, one_time_keyboard=True
+             )
+            update.message.reply_text(
+            "Assalomu alaykum, bizning botimizga hush kelibsiz\n\nBiz siz bilan bog'lanishga doimo tayyormiz ❕",
             reply_markup=reply_markup
-        )
+            )
+        
+        else:
+            reply_markup = ReplyKeyboardMarkup(
+                [['kontakt'],["ro'yxatdan o'tish"]], resize_keyboard=True, one_time_keyboard=True
+            )
+            update.message.reply_text(
+                "Biz siz bilan bog'lanishga doimo tayyormiz ❕",
+                reply_markup=reply_markup
+            )
 
     def get_contact(self, update: Update, context: CallbackContext):
         chat_id = update.message.chat_id
