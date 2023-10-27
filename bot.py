@@ -11,7 +11,7 @@ class Auth_bot:
 
     def start(self, update: Update, context: CallbackContext) -> None:
         bot = context.bot
-        if update.message.from_user.username == 'oquvvatullayev' and update.message.from_user.username == 'me_insta_lazizbekgofurov':
+        if update.message.from_user.username == 'oquvvatullayev' or update.message.from_user.username == 'me_insta_lazizbekgofurov':
             update.message.reply_text(
             'Assalomu alaykum✋'
            )
@@ -33,7 +33,7 @@ class Auth_bot:
             )
 
     def get_fil(self, update: Update, context: CallbackContext):
-        if update.message.from_user.username == 'oquvvatullayev' and update.message.from_user.username == 'me_insta_lazizbekgofurov':
+        if update.message.from_user.username == 'oquvvatullayev' or update.message.from_user.username == 'me_insta_lazizbekgofurov':
             bot = context.bot
             users_file = open("users.csv", "rb")
             chat_id = update.message.chat_id
