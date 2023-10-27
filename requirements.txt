@@ -3,3 +3,4 @@ tinydb == 4.5.1
 requests
 flask
 pandas
+xlsxwriter
